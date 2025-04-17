@@ -1,0 +1,17 @@
+# Smithery configuration file: https://smithery.ai/docs/config#smitheryyaml
+
+startCommand:
+  type: stdio
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    required:
+      - lemonsqueezyApiKey
+    properties:
+      stripeApiKey:
+        type: string
+        description: The secret key for authenticating with the Lemon Squeezy API.
+  commandFunction:
+    # A function that produces the CLI command to start the MCP on stdio.
+    |-
+    (config) => ({command: 'uv', args: ['run', 'src/mcp_lemonsqueezy/server.py'], env: {LEMONSQUEEZY_API_KEY: config.lemonsqueezy_api_key}})
