@@ -6,9 +6,9 @@ startCommand:
     # JSON Schema defining the configuration options for the MCP.
     type: object
     required:
-      - lemonsqueezyApiKey
+      - lemonsqueezy_api_key
     properties:
-      stripeApiKey:
+      lemonsqueezy_api_key:
         type: string
         description: The secret key for authenticating with the Lemon Squeezy API.
   commandFunction:
