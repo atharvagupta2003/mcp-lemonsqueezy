@@ -20,7 +20,7 @@ COPY src /app/src
 # Set environment variables
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
-ENV PYTHONPATH="/app/src:$PYTHONPATH"
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Copy .env.example to .env (to be configured with actual values in practice)
 COPY .env.example .env
