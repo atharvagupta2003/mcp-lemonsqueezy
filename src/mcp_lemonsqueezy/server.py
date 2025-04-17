@@ -126,11 +126,16 @@ async def main():
                 data = await ls.request("POST", "/checkouts", json_data={"data": arguments["checkout_data"]})
                 ls.log_operation(name, arguments)
             elif name == "create_webhook":
-                data = await ls.request("POST", "/webhooks", json_data={"data": arguments["webhook_data"]})
+                data = await ls.request("POST", "/webhooks", json_data=arguments)
                 ls.log_operation(name, arguments)
             elif name == "get_product_variants":
-                product_id = arguments["product_id"]
+                product_id = arguments.get("product_id")
                 data = await ls.request("GET", f"/products/{product_id}/variants")
+                ls.log_operation(name, arguments)
+            elif name == "list_webhooks":
+                store_id = arguments.get("store_id")
+                params = {"filter[store_id]": store_id} if store_id else None
+                data = await ls.request("GET", "/webhooks", params=params)
                 ls.log_operation(name, arguments)
             else:
                 raise ValueError(f"Unknown tool: {name}")

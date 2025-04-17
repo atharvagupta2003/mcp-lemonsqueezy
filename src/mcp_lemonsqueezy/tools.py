@@ -231,16 +231,79 @@ def get_lemonsqueezy_tools() -> list[Tool]:
         ),
         Tool(
             name="create_webhook",
-            description="Register a webhook URL",
+            description="Register a webhook URL for a specific store and events",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "webhook_data": {
                         "type": "object",
-                        "description": "Webhook registration payload"
+                        "properties": {
+                            "data": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string",
+                                        "enum": ["webhooks"]
+                                    },
+                                    "attributes": {
+                                        "type": "object",
+                                        "properties": {
+                                            "url": {"type": "string"},
+                                            "events": {
+                                                "type": "array",
+                                                "items": {"type": "string"}
+                                            },
+                                            "secret": {"type": "string"}
+                                        },
+                                        "required": ["url", "events", "secret"]
+                                    },
+                                    "relationships": {
+                                        "type": "object",
+                                        "properties": {
+                                            "store": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "data": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "type": {
+                                                                "type": "string",
+                                                                "enum": ["stores"]
+                                                            },
+                                                            "id": {
+                                                                "type": "string",
+                                                                "description": "The store ID"
+                                                            }
+                                                        },
+                                                        "required": ["type", "id"]
+                                                    }
+                                                },
+                                                "required": ["data"]
+                                            }
+                                        },
+                                        "required": ["store"]
+                                    }
+                                },
+                                "required": ["type", "attributes", "relationships"]
+                            }
+                        },
+                        "required": ["data"]
                     }
                 },
                 "required": ["webhook_data"]
             }
+        ),
+        Tool(
+            name="list_webhooks",
+            description="List all webhooks. Optionally filter by store ID.",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "store_id": {
+                        "type": "string",
+                        "description": "If provided, only webhooks for this store will be returned"
+                    }
+                }
+            }
         )
-    ]
+]
