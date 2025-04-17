@@ -143,9 +143,12 @@ def get_lemonsqueezy_tools() -> list[Tool]:
                                             "enabled_variants": {
                                                 "type": "array",
                                                 "items": {"type": "integer"}
-                                            }
-                                        },
-                                        "required": ["enabled_variants"]
+                                            },
+                                            "redirect_url": {"type": "string"},
+                                            "receipt_thank_you_note": {"type": "string"},
+                                            "receipt_button_text": {"type": "string"},
+                                            "receipt_link_url": {"type": "string"}
+                                        }
                                     },
                                     "checkout_options": {
                                         "type": "object",
@@ -156,16 +159,18 @@ def get_lemonsqueezy_tools() -> list[Tool]:
                                     "checkout_data": {
                                         "type": "object",
                                         "properties": {
-                                         "discount_code": {"type": "string"},
+                                            "email": {"type": "string"},
+                                            "name": {"type": "string"},
+                                            "discount_code": {"type": "string"},
+                                            "custom_notes": {"type": "string"},
                                             "custom": {
                                                 "type": "object",
                                                 "properties": {
                                                     "user_id": {"type": "string"}
-                                                },
-                                            "required": ["user_id"]
+                                                }
                                             }
                                         },
-                                        "required": ["custom"]
+                                        "required": ["email", "name"]
                                     },
                                     "expires_at": {
                                         "type": "string",
@@ -196,7 +201,7 @@ def get_lemonsqueezy_tools() -> list[Tool]:
                                             }
                                         },
                                         "required": ["data"]
-                                        },
+                                    },
                                     "variant": {
                                         "type": "object",
                                         "properties": {
@@ -224,7 +229,6 @@ def get_lemonsqueezy_tools() -> list[Tool]:
                 "required": ["data"]
             }
         ),
-
         Tool(
             name="create_webhook",
             description="Register a webhook URL",
