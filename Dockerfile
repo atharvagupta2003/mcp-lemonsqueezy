@@ -11,15 +11,16 @@ COPY pyproject.toml uv.lock /app/
 # Install the dependencies
 RUN pip install --no-cache-dir uv
 
+# Install project dependencies
+RUN uv pip install -e .
+
 # Copy the application code
 COPY src /app/src
 
 # Set environment variables
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
-
-# Ensure that .venv/bin is in the PATH to access installed packages
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PYTHONPATH="/app/src:$PYTHONPATH"
 
 # Copy .env.example to .env (to be configured with actual values in practice)
 COPY .env.example .env
