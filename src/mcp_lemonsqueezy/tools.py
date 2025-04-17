@@ -29,6 +29,20 @@ def get_lemonsqueezy_tools() -> list[Tool]:
             inputSchema={"type": "object", "properties": {}}
         ),
         Tool(
+            name="get_product_variants",
+            description="Get all variants for a given product ID",
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "product_id": {
+                        "type": "string",
+                        "description": "The ID of the product to fetch variants for"
+                    }
+                },
+                "required": ["product_id"]
+            }
+        ),
+        Tool(
             name="get_product",
             description="Get a specific product by ID",
             inputSchema={
@@ -105,18 +119,112 @@ def get_lemonsqueezy_tools() -> list[Tool]:
         ),
         Tool(
             name="create_checkout",
-            description="Create a Lemon Squeezy checkout session",
+            description="Create a Lemon Squeezy checkout session with full custom configuration",
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "checkout_data": {
+                    "data": {
                         "type": "object",
-                        "description": "Checkout payload as per Lemon Squeezy API"
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": ["checkouts"]
+                            },
+                            "attributes": {
+                                "type": "object",
+                                "properties": {
+                                    "custom_price": {
+                                        "type": "integer",
+                                        "description": "Price in cents (e.g., 9900 for $99.00)"
+                                    },
+                                    "product_options": {
+                                        "type": "object",
+                                        "properties": {
+                                            "enabled_variants": {
+                                                "type": "array",
+                                                "items": {"type": "integer"}
+                                            }
+                                        },
+                                        "required": ["enabled_variants"]
+                                    },
+                                    "checkout_options": {
+                                        "type": "object",
+                                        "properties": {
+                                            "button_color": {"type": "string"}
+                                        }
+                                    },
+                                    "checkout_data": {
+                                        "type": "object",
+                                        "properties": {
+                                         "discount_code": {"type": "string"},
+                                            "custom": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "user_id": {"type": "string"}
+                                                },
+                                            "required": ["user_id"]
+                                            }
+                                        },
+                                        "required": ["custom"]
+                                    },
+                                    "expires_at": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "preview": {
+                                        "type": "boolean"
+                                    }
+                                },
+                                "required": ["product_options", "checkout_data"]
+                            },
+                            "relationships": {
+                                "type": "object",
+                                "properties": {
+                                    "store": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": ["stores"]
+                                                    },
+                                                    "id": {"type": "string"}
+                                                },
+                                                "required": ["type", "id"]
+                                            }
+                                        },
+                                        "required": ["data"]
+                                        },
+                                    "variant": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "type": {
+                                                        "type": "string",
+                                                        "enum": ["variants"]
+                                                    },
+                                                    "id": {"type": "string"}
+                                                },
+                                                "required": ["type", "id"]
+                                            }
+                                        },
+                                        "required": ["data"]
+                                    }
+                                },
+                                "required": ["store", "variant"]
+                            }
+                        },
+                        "required": ["type", "attributes", "relationships"]
                     }
                 },
-                "required": ["checkout_data"]
+                "required": ["data"]
             }
         ),
+
         Tool(
             name="create_webhook",
             description="Register a webhook URL",
