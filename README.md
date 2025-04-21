@@ -98,13 +98,17 @@ MacOS: ~/Library/Application Support/Claude/claude_desktop_config.json
 {
   "mcpServers": {
     "lemonsqueezy": {
-      "command": "uv",
+      "command": "/Users/hp/.local/bin/uv",
+      "description": "Operations with lemonsqueezy payment platform",
       "args": [
         "--directory",
         "/ABSOLUTE/PATH/TO/PARENT/FOLDER/src/mcp_lemonsqueezy/",
         "run",
         "server.py"
-      ]
+      ],
+      "env": {
+         "LEMONSQUEEZY_API_KEY": "<YOUR-API-KEY>"
+       }
     }
   }
 }
@@ -160,7 +164,7 @@ The server provides clear error messages for common scenarios:
 ### Testing
 Run the MCP Inspector for interactive testing:
 ```sh
-npx @modelcontextprotocol/inspector uv --directory /ABSOLUTE/PATH/TO/PARENT/FOLDER/src/mcp_lemonsqueezy run server.py
+npx @modelcontextprotocol/inspector uv run --with fastmcp /ABSOLUTE/PATH/TO/PARENT/FOLDER/src/mcp_lemonsqueezy/server.py
 ```
 
 ### Building

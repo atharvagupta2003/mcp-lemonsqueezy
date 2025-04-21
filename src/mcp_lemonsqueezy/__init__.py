@@ -1,8 +1,4 @@
-from . import server
-import asyncio
+from test import mcp
 
 def main():
-    """Entry point for the Lemon Squeezy MCP server."""
-    asyncio.run(server.main())
-
-__all__ = ['main', 'server']
+    mcp.run()
