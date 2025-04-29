@@ -102,8 +102,10 @@ MacOS: ~/Library/Application Support/Claude/claude_desktop_config.json
       "description": "Operations with lemonsqueezy payment platform",
       "args": [
         "--directory",
-        "/ABSOLUTE/PATH/TO/PARENT/FOLDER/src/mcp_lemonsqueezy/",
+        "/ABSOLUTE/PATH/TO/PARENT/FOLDER/src/mcp_lemonsqueezy",
         "run",
+        "--with",
+        "fastmcp",
         "server.py"
       ],
       "env": {
